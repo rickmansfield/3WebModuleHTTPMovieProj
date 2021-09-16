@@ -3,10 +3,7 @@ import { useHistory, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const AddMovieForm = (props) => {
-    console.log('AddMoveForm ln:6 props: ', props);
-
-    const { push } = useHistory();
-    const { id } = useParams();
+    // console.log('AddMoveForm ln:6 props: ', props);
     const [movie, setMovie] = useState({
         title: '',
         director: '',
@@ -15,6 +12,9 @@ const AddMovieForm = (props) => {
         description: '',
     })
     const { title, director, genre, metascore, description } = movie;
+    const { push } = useHistory();
+    const { id } = useParams();
+    const { setMovies } = props;
 
     const handleChange = (e) => {
         setMovie({
@@ -24,13 +24,13 @@ const AddMovieForm = (props) => {
     }
     //16 In `AddMovieForm,` add an event handler for form submission. When the form is submitted, run the approprate request for adding a movie with the component's state values.
     const handleSubmit = (e) => {
-        console.log("AddMovieForm.js in handleSubmit");
+        // console.log("AddMovieForm.js ln:27 handleSubmit fired");
         e.preventDefault();
-
         axios.post(`http://localhost:5001/api/movies/`, movie)
             .then(res => {
-                console.log("AddMovieForm.js axios response: ", res);
-                props.setMovie(res.data);//17 Make sure your component has access to and runs and modifications needed to global state and redirects to `/movies` after creation.
+                console.log('AddMovieForm.js ln:31 res', res);
+                console.log('AddMovieForm.js ln:32 res.data', res.data);
+                setMovies(res.data);//17 Make sure your component has access to and runs and modifications needed to global state and redirects to `/movies` after creation.
                 push(`/movies`);
             })
             .catch(err => {
